@@ -2,25 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Runner
 {
    public class Arrow
    {
-      public float X { get; set; }
-      public float Y { get; set; }
+      public Vector2 Position { get; set; }
       public bool IsDead { get; set; }
+      public Vector2 Target { get; set; }
+      public Vector2 Velocity { get; set; }
 
-      public Arrow(float x, float y)
+      public Arrow(Vector2 target)
       {
-         this.X = x;
-         this.Y = y;
+         Position = new Vector2(GameUtil.playerX, GameUtil.playerY);
+         Target = target;
          IsDead = false;
+         CalculateVelocity();
       }
 
       public void Tick()
       {
-         this.X += 5;
+         Position += Velocity * GameUtil.arrowSpeed;
+      }
+
+      private void CalculateVelocity()
+      {
+         float rise = Target.Y - GameUtil.playerY;
+         float run = Target.X - GameUtil.playerX;
+         Vector2 slope = new Vector2(run, rise);
+         Velocity = Vector2.Normalize(slope);
       }
    }
 }

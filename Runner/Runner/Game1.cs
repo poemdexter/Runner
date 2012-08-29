@@ -68,7 +68,7 @@ namespace Runner
          {
             foreach (Arrow arrow in arrowList)
             {
-               if (arrow.X > GameUtil.windowWidth)
+               if (arrow.Position.X > GameUtil.windowWidth)
                   arrow.IsDead = true;
                else
                   arrow.Tick();
@@ -97,8 +97,10 @@ namespace Runner
          {
             if (keyboard.IsKeyDown(Keys.Space) || mouse.LeftButton == ButtonState.Pressed)
             {
+               // TODO get mouse position for physics reasons
+               
                // fire ze arrow!
-               arrowList.Add(new Arrow(150, 500));
+               arrowList.Add(new Arrow(new Vector2(mouse.X, mouse.Y)));
                inputElapsedTime = 200;
             }
          }
@@ -112,13 +114,13 @@ namespace Runner
 
          spriteBatch.DrawString(lofiFont, "Runner Prototype " + VERSION, new Vector2(20, 20), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
 
-         spriteBatch.Draw(playerSprite, new Vector2(100, 500), playerSprite.Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
+         spriteBatch.Draw(playerSprite, new Vector2(GameUtil.playerX, GameUtil.playerY), playerSprite.Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
 
          if (arrowList.Count > 0)
          {
             foreach (Arrow arrow in arrowList)
             {
-               spriteBatch.Draw(arrowSprite, new Vector2(arrow.X, arrow.Y), arrowSprite.Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
+               spriteBatch.Draw(arrowSprite, arrow.Position, arrowSprite.Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
             }
          }
 
