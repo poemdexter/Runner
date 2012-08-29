@@ -11,79 +11,118 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Runner
 {
-   /// <summary>
-   /// This is the main type for your game
-   /// </summary>
    public class Game1 : Microsoft.Xna.Framework.Game
    {
+      private const String VERSION = "0.0.1";
+
       GraphicsDeviceManager graphics;
       SpriteBatch spriteBatch;
+      SpriteFont lofiFont;  // fontHeight = 7px
+      Texture2D playerSprite, arrowSprite;
+
+      List<Arrow> arrowList;
+
+      KeyboardState currentKeyboardState, previousKeyboardState;
+      MouseState currentMouseState, previousMouseState;
+      int inputElapsedTime = 0;
+
+      
 
       public Game1()
       {
          graphics = new GraphicsDeviceManager(this);
          Content.RootDirectory = "Content";
+         graphics.PreferredBackBufferHeight = GameUtil.windowHeight;
+         graphics.PreferredBackBufferWidth = GameUtil.windowWidth;
+         this.IsMouseVisible = true;
       }
 
-      /// <summary>
-      /// Allows the game to perform any initialization it needs to before starting to run.
-      /// This is where it can query for any required services and load any non-graphic
-      /// related content.  Calling base.Initialize will enumerate through any components
-      /// and initialize them as well.
-      /// </summary>
       protected override void Initialize()
       {
-         // TODO: Add your initialization logic here
-
          base.Initialize();
+         arrowList = new List<Arrow>();
       }
 
-      /// <summary>
-      /// LoadContent will be called once per game and is the place to load
-      /// all of your content.
-      /// </summary>
       protected override void LoadContent()
       {
-         // Create a new SpriteBatch, which can be used to draw textures.
          spriteBatch = new SpriteBatch(GraphicsDevice);
-
-         // TODO: use this.Content to load your game content here
+         lofiFont = Content.Load<SpriteFont>("font/lofi_font");
+         playerSprite = Content.Load<Texture2D>("player/char_bandit");
+         arrowSprite = Content.Load<Texture2D>("entities/arrow");
       }
 
-      /// <summary>
-      /// UnloadContent will be called once per game and is the place to unload
-      /// all content.
-      /// </summary>
       protected override void UnloadContent()
       {
-         // TODO: Unload any non ContentManager content here
       }
 
-      /// <summary>
-      /// Allows the game to run logic such as updating the world,
-      /// checking for collisions, gathering input, and playing audio.
-      /// </summary>
-      /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Update(GameTime gameTime)
       {
-         // Allows the game to exit
-         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-            this.Exit();
+         // this.Exit();
+         previousKeyboardState = currentKeyboardState;
+         previousMouseState = currentMouseState;
+         currentKeyboardState = Keyboard.GetState();
+         currentMouseState = Mouse.GetState();
+         HandleInput(currentKeyboardState, currentMouseState, gameTime);
 
-         // TODO: Add your update logic here
+         if (arrowList.Count > 0)
+         {
+            foreach (Arrow arrow in arrowList)
+            {
+               if (arrow.X > GameUtil.windowWidth)
+                  arrow.IsDead = true;
+               else
+                  arrow.Tick();
+            }
+         }
+
+         CleanArrowList();
 
          base.Update(gameTime);
       }
 
-      /// <summary>
-      /// This is called when the game should draw itself.
-      /// </summary>
-      /// <param name="gameTime">Provides a snapshot of timing values.</param>
+      private void CleanArrowList()
+      {
+         for (int i = arrowList.Count - 1; i >= 0; --i)
+         {
+            if (arrowList[i].IsDead)
+               arrowList.RemoveAt(i);
+         }
+      }
+
+      private void HandleInput(KeyboardState keyboard, MouseState mouse, GameTime gameTime)
+      {
+         inputElapsedTime -= gameTime.ElapsedGameTime.Milliseconds;
+
+         if (inputElapsedTime <= 0)
+         {
+            if (keyboard.IsKeyDown(Keys.Space) || mouse.LeftButton == ButtonState.Pressed)
+            {
+               // fire ze arrow!
+               arrowList.Add(new Arrow(150, 500));
+               inputElapsedTime = 200;
+            }
+         }
+      }
+
       protected override void Draw(GameTime gameTime)
       {
          GraphicsDevice.Clear(Color.CornflowerBlue);
 
-         // TODO: Add your drawing code here
+         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null);
+
+         spriteBatch.DrawString(lofiFont, "Runner Prototype " + VERSION, new Vector2(20, 20), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
+
+         spriteBatch.Draw(playerSprite, new Vector2(100, 500), playerSprite.Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
+
+         if (arrowList.Count > 0)
+         {
+            foreach (Arrow arrow in arrowList)
+            {
+               spriteBatch.Draw(arrowSprite, new Vector2(arrow.X, arrow.Y), arrowSprite.Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
+            }
+         }
+
+         spriteBatch.End();
 
          base.Draw(gameTime);
       }
