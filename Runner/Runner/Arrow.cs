@@ -12,6 +12,13 @@ namespace Runner
       public bool IsDead { get; set; }
       public Vector2 Target { get; set; }
       public Vector2 Velocity { get; set; }
+      public Rectangle Bounds
+      {
+         get
+         {
+            return new Rectangle((int)Position.X, (int)Position.Y, (int)GameUtil.spriteScale * 7, (int)GameUtil.spriteScale * 3);
+         }
+      }
 
       public Arrow(Vector2 target)
       {
