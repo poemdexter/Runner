@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Runner.ScreenFramework.Framework;
+using Runner.EntityFramework.Components;
 
 namespace Runner.ScreenFramework.Screens
 {
@@ -44,21 +45,21 @@ namespace Runner.ScreenFramework.Screens
             {
                 foreach (Arrow arrow in arrowList)
                 {
-                    if (arrow.Position.X > GameUtil.windowWidth)
-                        arrow.IsDead = true;
+                    if (((Mobile)arrow.GetComponent("Mobile")).Position.X > GameUtil.windowWidth)
+                        arrow.IsAlive = false;
                     else
-                        arrow.Tick();
+                        ((Mobile)arrow.GetComponent("Mobile")).Tick();
                 }
                 CleanArrowList();
             }
 
-            if (bat.IsDead)
+            if (!bat.IsAlive)
             {
                 bat = new Bat();
             }
             else
             {
-                bat.Tick();
+                ((Mobile)bat.GetComponent("Mobile")).Tick();
                 CheckCollisions();
             }
         }
@@ -86,13 +87,13 @@ namespace Runner.ScreenFramework.Screens
             {
                 foreach (Arrow arrow in arrowList)
                 {
-                    Batch.Draw(arrowSprite, arrow.Position, arrowSprite.Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
+                    Batch.Draw(GameUtil.spriteDictionary[((Mobile)arrow.GetComponent("Mobile")).SpriteName], ((Mobile)arrow.GetComponent("Mobile")).Position, GameUtil.spriteDictionary[((Mobile)arrow.GetComponent("Mobile")).SpriteName].Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
                 }
             }
 
-            if (!bat.IsDead)
+            if (bat.IsAlive)
             {
-                Batch.Draw(batSprite, bat.Position, batSprite.Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
+                Batch.Draw(GameUtil.spriteDictionary[((Mobile)bat.GetComponent("Mobile")).SpriteName], ((Mobile)bat.GetComponent("Mobile")).Position, GameUtil.spriteDictionary[((Mobile)bat.GetComponent("Mobile")).SpriteName].Bounds, Color.White, 0f, Vector2.Zero, GameUtil.spriteScale, SpriteEffects.None, 0);
             }
 
             Batch.DrawString(Font, "BAT SCORE: " + score, new Vector2(20, 600), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
@@ -108,10 +109,10 @@ namespace Runner.ScreenFramework.Screens
             {
                 foreach (Arrow arrow in arrowList)
                 {
-                    if (arrow.Bounds.Intersects(bat.Bounds))
+                    if (((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)bat.GetComponent("Mobile")).BoundingBox))
                     {
-                        arrow.IsDead = true;
-                        bat.IsDead = true;
+                        arrow.IsAlive = false;
+                        bat.IsAlive = false;
                         score++;
                         break;
                     }
@@ -123,7 +124,7 @@ namespace Runner.ScreenFramework.Screens
         {
             for (int i = arrowList.Count - 1; i >= 0; --i)
             {
-                if (arrowList[i].IsDead)
+                if (!arrowList[i].IsAlive)
                     arrowList.RemoveAt(i);
             }
         }

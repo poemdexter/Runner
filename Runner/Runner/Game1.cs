@@ -31,6 +31,11 @@ namespace Runner
             screenManager.AddScreen(new TitleScreen());
         }
 
+        protected override void LoadContent()
+        {
+            GameUtil.loadSprites(Content);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
