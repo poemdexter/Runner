@@ -19,8 +19,8 @@ namespace Runner.EntityFramework.Components
                 return new Rectangle(
                     (int)Position.X,
                     (int)Position.Y,
-                    GameUtil.spriteDictionary[SpriteName].Width * (int)GameUtil.spriteScale,
-                    GameUtil.spriteDictionary[SpriteName].Height * (int)GameUtil.spriteScale);
+                    GameUtil.spriteDictionary[SpriteName].Width,
+                    GameUtil.spriteDictionary[SpriteName].Height);
             }
         }
 
