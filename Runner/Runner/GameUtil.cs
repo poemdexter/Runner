@@ -20,10 +20,18 @@ namespace Runner
 
         public static int arrowSpeed = 15;
         public static int arrowDelay = 300;
-        public static int batSpeed = 2;
+        public static int batSpeed = 6;
 
         public static Random random = new Random();
         public static IDictionary<String, Texture2D> spriteDictionary = new Dictionary<String, Texture2D>();
+
+        // Animation Frames for each Image
+        public static int bat_frames = 1;
+        public static int arrow_frames = 1;
+        public static int player_frames = 2;
+
+        // Animation timing
+        public static int playerAnimationLength = 200;
 
         public static void loadSprites(ContentManager Content)
         {
@@ -31,6 +39,7 @@ namespace Runner
             spriteDictionary.Add("arrow", Content.Load<Texture2D>("entities/arrow"));
             spriteDictionary.Add("ground", Content.Load<Texture2D>("environment/ground"));
             spriteDictionary.Add("background", Content.Load<Texture2D>("environment/background"));
+            spriteDictionary.Add("player", Content.Load<Texture2D>("player/hunter_ani"));
         }
     }
 }

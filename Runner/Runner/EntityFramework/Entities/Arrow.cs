@@ -5,15 +5,22 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Runner.EntityFramework.Framework;
 using Runner.EntityFramework.Components;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace Runner
+namespace Runner.EntityFramework.Entities
 {
     public class Arrow : Entity
     {
         public Arrow(Vector2 target)
         {
+            int s_height = GameUtil.spriteDictionary["arrow"].Height;
+            int s_width = GameUtil.spriteDictionary["arrow"].Width / GameUtil.arrow_frames;
             IsAlive = true;
-            this.AddComponent(new Mobile("arrow", new Vector2(GameUtil.playerX, GameUtil.playerY), CalculateVelocity(target) * GameUtil.arrowSpeed));
+            this.AddComponent(new Mobile(s_height, s_width, 
+                                        new Vector2(GameUtil.playerX, GameUtil.playerY), 
+                                        CalculateVelocity(target) * GameUtil.arrowSpeed));
+
+            this.AddComponent(new Drawable("arrow", s_height, s_width, 2, true, SpriteEffects.None));
         }
 
         private Vector2 CalculateVelocity(Vector2 target)

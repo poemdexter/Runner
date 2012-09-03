@@ -11,7 +11,8 @@ namespace Runner.EntityFramework.Components
     {
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
-        public String SpriteName { get; set; }
+        public int SpriteHeight { get; set; }
+        public int SpriteWidth { get; set; }
         public Rectangle BoundingBox
         {
             get
@@ -19,16 +20,17 @@ namespace Runner.EntityFramework.Components
                 return new Rectangle(
                     (int)Position.X,
                     (int)Position.Y,
-                    GameUtil.spriteDictionary[SpriteName].Width,
-                    GameUtil.spriteDictionary[SpriteName].Height);
+                    SpriteWidth,
+                    SpriteHeight);
             }
         }
 
 
-        public Mobile(String spriteName, Vector2 position, Vector2 velocity)
+        public Mobile(int sprite_h, int sprite_w, Vector2 position, Vector2 velocity)
         {
             this.Name = "Mobile";
-            this.SpriteName = spriteName;
+            this.SpriteHeight = sprite_h;
+            this.SpriteWidth = sprite_w;
             this.Position = position;
             this.Velocity = velocity;
         }

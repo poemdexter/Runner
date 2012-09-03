@@ -74,7 +74,7 @@ namespace Runner.ScreenFramework.Screens
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null);
 
             // draw title
-            spriteBatch.DrawString(font, titleText, new Vector2(graphics.Viewport.Width / 2, 100), Color.White, 0, font.MeasureString(titleText) / 2, 4f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(font, titleText + " " + GameUtil.VERSION, new Vector2(graphics.Viewport.Width / 2, 100), Color.White, 0, font.MeasureString(titleText) / 2, 4f, SpriteEffects.None, 0);
 
             // draw options
             int x = 0;
