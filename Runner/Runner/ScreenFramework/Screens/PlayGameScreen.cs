@@ -67,7 +67,7 @@ namespace Runner.ScreenFramework.Screens
             else
             {
                 ((Mobile)bat.GetComponent("Mobile")).Tick();
-                if (((Mobile)bat.GetComponent("Mobile")).Position.X < 0) { bat.IsAlive = false; }
+                if (((Mobile)bat.GetComponent("Mobile")).Position.X < -100) { bat.IsAlive = false; }
             }
 
             AnimateObjects(gameTime);
@@ -119,21 +119,21 @@ namespace Runner.ScreenFramework.Screens
 
             // draw player
             Drawable playerDrawable = (Drawable)player.GetComponent("Drawable");
-            Batch.Draw(GameUtil.spriteDictionary[playerDrawable.SpriteName], new Vector2(GameUtil.playerX, GameUtil.playerY), playerDrawable.SourceRect, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0);
+            Batch.Draw(GameUtil.spriteDictionary[playerDrawable.SpriteName], new Vector2(GameUtil.playerX, GameUtil.playerY), playerDrawable.SourceRect, Color.White, playerDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
 
             if (arrowList.Count > 0)
             {
                 foreach (Arrow arrow in arrowList)
                 {
                     Drawable arrowDrawable = (Drawable)arrow.GetComponent("Drawable");
-                    Batch.Draw(GameUtil.spriteDictionary[arrowDrawable.SpriteName], ((Mobile)arrow.GetComponent("Mobile")).Position, arrowDrawable.SourceRect, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0);
+                    Batch.Draw(GameUtil.spriteDictionary[arrowDrawable.SpriteName], ((Mobile)arrow.GetComponent("Mobile")).Position, arrowDrawable.SourceRect, Color.White, arrowDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
                 }
             }
 
             if (bat.IsAlive)
             {
                 Drawable batDrawable = (Drawable)bat.GetComponent("Drawable");
-                Batch.Draw(GameUtil.spriteDictionary[batDrawable.SpriteName], ((Mobile)bat.GetComponent("Mobile")).Position, batDrawable.SourceRect, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0);
+                Batch.Draw(GameUtil.spriteDictionary[batDrawable.SpriteName], ((Mobile)bat.GetComponent("Mobile")).Position, batDrawable.SourceRect, Color.White, batDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
             }
 
             Batch.DrawString(Font, "BAT SCORE: " + score, new Vector2(20, 40), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);

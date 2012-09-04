@@ -20,8 +20,9 @@ namespace Runner.EntityFramework.Components
         public SpriteEffects Effects { get; set; }
         public bool Animated { get; set; }
         public int ElapsedTimeCounter { get; set; }
+        public float Rotation { get; set; }
 
-        public Drawable(String spriteName, int frameHeight, int frameWidth, int frameCount, bool looping, SpriteEffects effects)
+        public Drawable(String spriteName, int frameHeight, int frameWidth, float rotation, int frameCount, bool looping, SpriteEffects effects)
         {
             this.Name = "Drawable";
             this.Animated = (frameCount > 1) ? true : false;
@@ -32,6 +33,7 @@ namespace Runner.EntityFramework.Components
             this.CurrentFrame = 0;
             this.FrameHeight = frameHeight;
             this.FrameWidth = frameWidth;
+            this.Rotation = rotation;
             this.SourceRect = new Rectangle(this.CurrentFrame * this.FrameHeight, 0, this.FrameWidth, this.FrameHeight);
             this.ElapsedTimeCounter = 0;
         }

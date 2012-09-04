@@ -19,8 +19,8 @@ namespace Runner.EntityFramework.Entities
             this.AddComponent(new Mobile(s_height, s_width,
                                         new Vector2(GameUtil.playerX, GameUtil.playerY),
                                         Vector2.Zero));
-            
-            this.AddComponent(new Drawable("player", s_height, s_width, 2, true, SpriteEffects.None));
+
+            this.AddComponent(new Drawable("player", s_height, s_width, 0, 2, true, SpriteEffects.None));
             this.AddAction(new NextFrameOfAnimation());
             IsAlive = true;
         }
