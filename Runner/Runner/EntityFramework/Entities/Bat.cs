@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Runner.EntityFramework.Framework;
 using Runner.EntityFramework.Components;
 using Microsoft.Xna.Framework.Graphics;
+using Runner.EntityFramework.Actions;
+using Runner.EntityFramework.Actions.MobAI;
 
 namespace Runner.EntityFramework.Entities
 {
@@ -21,6 +23,9 @@ namespace Runner.EntityFramework.Entities
                                         new Vector2(-1, 0) * GameUtil.batSpeed));
 
             this.AddComponent(new Drawable("bat", s_height, s_width, 0, 1, true, SpriteEffects.None));
+            this.AddComponent(new Hitpoints(GameUtil.batHP));
+            this.AddAction(new TakeDamage());
+            this.AddAction(new BatAttack());
             IsAlive = true;
         }
     }

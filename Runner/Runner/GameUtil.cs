@@ -30,6 +30,13 @@ namespace Runner
         public static int arrow_frames = 1;
         public static int player_frames = 2;
 
+        // HP values
+        public static int playerHP = 3;
+        public static int batHP = 2;
+
+        // Weapon dmg
+        public static int arrowDmg = 1;
+
         // Animation timing
         public static int playerAnimationLength = 200;
 
@@ -40,6 +47,7 @@ namespace Runner
             spriteDictionary.Add("ground", Content.Load<Texture2D>("environment/ground"));
             spriteDictionary.Add("background", Content.Load<Texture2D>("environment/background"));
             spriteDictionary.Add("player", Content.Load<Texture2D>("player/hunter_ani"));
+            spriteDictionary.Add("heart", Content.Load<Texture2D>("entities/heart"));
         }
     }
 }

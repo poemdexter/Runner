@@ -116,6 +116,13 @@ namespace Runner.ScreenFramework.Screens
             Batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null);
 
             Batch.DrawString(Font, "Runner Prototype " + GameUtil.VERSION, new Vector2(20, 20), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
+            Batch.DrawString(Font, "BAT SCORE: " + score, new Vector2(20, 40), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
+
+            // draw player HP
+            for (int i = 0; i < (player.GetComponent("Hitpoints") as Hitpoints).HP; i++)
+            {
+                Batch.Draw(GameUtil.spriteDictionary["heart"], new Vector2(20 + (35 * i),60), GameUtil.spriteDictionary["heart"].Bounds, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+            }
 
             // draw player
             Drawable playerDrawable = (Drawable)player.GetComponent("Drawable");
@@ -136,7 +143,7 @@ namespace Runner.ScreenFramework.Screens
                 Batch.Draw(GameUtil.spriteDictionary[batDrawable.SpriteName], ((Mobile)bat.GetComponent("Mobile")).Position, batDrawable.SourceRect, Color.White, batDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
             }
 
-            Batch.DrawString(Font, "BAT SCORE: " + score, new Vector2(20, 40), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
+            
 
             Batch.End();
 
@@ -152,7 +159,7 @@ namespace Runner.ScreenFramework.Screens
                     if (((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)bat.GetComponent("Mobile")).BoundingBox))
                     {
                         arrow.IsAlive = false;
-                        bat.IsAlive = false;
+                        bat.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
                         score++;
                         break;
                     }

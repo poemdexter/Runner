@@ -72,8 +72,13 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityFramework\Actions\MobAI\BatAttack.cs" />
+    <Compile Include="EntityFramework\Actions\MobAttacking.cs" />
     <Compile Include="EntityFramework\Actions\NextFrameOfAnimation.cs" />
+    <Compile Include="EntityFramework\Actions\TakeDamage.cs" />
     <Compile Include="EntityFramework\Args\AnimationTimeArgs.cs" />
+    <Compile Include="EntityFramework\Args\SingleIntArgs.cs" />
+    <Compile Include="EntityFramework\Components\Hitpoints.cs" />
     <Compile Include="EntityFramework\Components\Drawable.cs" />
     <Compile Include="EntityFramework\Components\Mobile.cs" />
     <Compile Include="EntityFramework\Entities\Arrow.cs" />

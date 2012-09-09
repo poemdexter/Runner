@@ -22,6 +22,8 @@ namespace Runner.EntityFramework.Entities
 
             this.AddComponent(new Drawable("player", s_height, s_width, 0, 2, true, SpriteEffects.None));
             this.AddAction(new NextFrameOfAnimation());
+            this.AddComponent(new Hitpoints(GameUtil.playerHP));
+            this.AddAction(new TakeDamage());
             IsAlive = true;
         }
     }
