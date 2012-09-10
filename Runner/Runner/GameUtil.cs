@@ -36,6 +36,9 @@ namespace Runner
 
         // Weapon dmg
         public static int arrowDmg = 1;
+        
+        // Mob dmg
+        public static int batDmg = 1;
 
         // Animation timing
         public static int playerAnimationLength = 200;

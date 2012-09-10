@@ -73,6 +73,12 @@ namespace Runner.ScreenFramework.Screens
             AnimateObjects(gameTime);
 
             CheckCollisions();
+            CheckMobAI();
+        }
+
+        private void CheckMobAI()
+        {
+            bat.DoAction("BatAttack");
         }
 
         private void AnimateObjects(GameTime time)
@@ -163,6 +169,15 @@ namespace Runner.ScreenFramework.Screens
                         score++;
                         break;
                     }
+                }
+            }
+
+            if (bat.IsAlive)
+            {
+                if (((Mobile)bat.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
+                {
+                    bat.IsAlive = false;
+                    player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.batDmg));
                 }
             }
         }
