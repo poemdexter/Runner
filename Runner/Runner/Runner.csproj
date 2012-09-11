@@ -96,6 +96,7 @@
     <Compile Include="ScreenFramework\Framework\GameScreen.cs" />
     <Compile Include="ScreenFramework\Framework\InputState.cs" />
     <Compile Include="ScreenFramework\Framework\MenuEntry.cs" />
+    <Compile Include="ScreenFramework\Screens\GameOverScreen.cs" />
     <Compile Include="ScreenFramework\Screens\PlayGameScreen.cs" />
     <Compile Include="ScreenFramework\Screens\TitleScreen.cs" />
   </ItemGroup>

@@ -158,6 +158,7 @@ namespace Runner.ScreenFramework.Screens
 
         private void CheckCollisions()
         {
+            // arrow on bat collision
             if (arrowList.Count > 0 && bat.IsAlive)
             {
                 foreach (Arrow arrow in arrowList)
@@ -172,12 +173,18 @@ namespace Runner.ScreenFramework.Screens
                 }
             }
 
+            // bat on player collision
             if (bat.IsAlive)
             {
                 if (((Mobile)bat.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
                 {
                     bat.IsAlive = false;
                     player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.batDmg));
+                    if (!player.IsAlive)
+                    {
+                        ScreenManager.AddScreen(new GameOverScreen(score));
+                        ScreenManager.RemoveScreen(this);  // back to title screen
+                    }
                 }
             }
         }

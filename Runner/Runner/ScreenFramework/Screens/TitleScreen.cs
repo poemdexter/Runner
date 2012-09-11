@@ -46,6 +46,7 @@ namespace Runner.ScreenFramework.Screens
                 {
                     case (int)MainMenuEntry.Start:
                         ScreenManager.AddScreen(new PlayGameScreen());
+                        ScreenManager.RemoveScreen(this);
                         break;
                     case (int)MainMenuEntry.Exit:
                         ScreenManager.Game.Exit();
