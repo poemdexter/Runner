@@ -70,6 +70,11 @@ namespace Runner.ScreenFramework.Screens
                 if (((Mobile)bat.GetComponent("Mobile")).Position.X < -100) { bat.IsAlive = false; }
             }
 
+            if (player.Jumping || player.ForceDown)
+            {
+                ((Mobile)player.GetComponent("Mobile")).Tick();
+            }
+            
             AnimateObjects(gameTime);
 
             CheckCollisions();
@@ -89,11 +94,66 @@ namespace Runner.ScreenFramework.Screens
 
         public override void HandleInput(InputState input)
         {
-            if (input.IsNewKeyPress(Keys.Space) || input.IsNewLeftClick())
+            // firing arrows
+            if (input.IsNewKeyPress(Keys.Z, GameUtil.arrowDelay) || input.IsNewLeftClick(GameUtil.arrowDelay)) // fire weapon
             {
-                // fire ze arrow!
                 arrowList.Add(new Arrow(input.GetMousePosition()));
             }
+
+            // TODO: add smooth jumping instead of linear
+            #region Jump Logic
+            /* We put this check above new jump check because if new jump check
+             * is first, then we'll register new jump, see it's not same as old
+             * input state, and immediate stop jumping.  Doing it this way ensures
+             * we get at least one input state with jump being true meaning we
+             * can maintain the jump.
+             */
+            if (input.IsCurrentKeyPress(Keys.Space)) // player still jumping
+            {
+                if (player.Jumping && !player.ForceDown) // we're still going up!
+                {
+                    // hit max height?
+                    if ((player.GetComponent("Mobile") as Mobile).Position.Y <= GameUtil.playerY - GameUtil.maxJumpHeight)
+                    {
+                        player.ForceDown = true;
+                        (player.GetComponent("Mobile") as Mobile).Velocity = new Vector2(0, 2);
+                    }
+                }
+            }
+            else // we let go, so force going down
+            {
+                if (player.Jumping && !player.ForceDown)
+                {
+                    player.ForceDown = true;
+                    (player.GetComponent("Mobile") as Mobile).Velocity = new Vector2(0, 2);
+                }
+            }
+
+            if (input.IsNewKeyPress(Keys.Space)) // player new jump!
+            {
+                if (!player.Jumping && !player.ForceDown) // if not forcing down nor jumping, lets jump
+                {
+                    player.Jumping = true;
+                    (player.GetComponent("Mobile") as Mobile).Velocity = new Vector2(0, -2);
+                }
+            }
+
+            // we need to stop falling when we hit ground.
+            if (player.ForceDown)
+            {
+                if ((player.GetComponent("Mobile") as Mobile).Position.Y >= GameUtil.playerY)
+                {
+                    Vector2 standPosition = (player.GetComponent("Mobile") as Mobile).Position;
+                    standPosition.Y = GameUtil.playerY;
+                    (player.GetComponent("Mobile") as Mobile).Position = standPosition;
+                    player.ForceDown = false;
+                    player.Jumping = false;
+                }
+            }
+            #endregion
+
+            // uncomment below for awesome rope of bullets
+            // arrowList.Add(new Arrow(input.GetMousePosition()));
         }
 
         public override void Draw(GameTime gameTime)
@@ -132,7 +192,7 @@ namespace Runner.ScreenFramework.Screens
 
             // draw player
             Drawable playerDrawable = (Drawable)player.GetComponent("Drawable");
-            Batch.Draw(GameUtil.spriteDictionary[playerDrawable.SpriteName], new Vector2(GameUtil.playerX, GameUtil.playerY), playerDrawable.SourceRect, Color.White, playerDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
+            Batch.Draw(GameUtil.spriteDictionary[playerDrawable.SpriteName], ((Mobile)player.GetComponent("Mobile")).Position, playerDrawable.SourceRect, Color.White, playerDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
 
             if (arrowList.Count > 0)
             {

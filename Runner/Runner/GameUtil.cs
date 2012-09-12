@@ -9,7 +9,7 @@ namespace Runner
 {
     public static class GameUtil
     {
-        public const String VERSION = "0.0.5";
+        public const String VERSION = "0.0.6a";
 
         public static int windowHeight = 720;
         public static int windowWidth = 1280;
@@ -42,6 +42,9 @@ namespace Runner
 
         // Animation timing
         public static int playerAnimationLength = 200;
+
+        // jump constants
+        public static int maxJumpHeight = 100;
 
         public static void loadSprites(ContentManager Content)
         {

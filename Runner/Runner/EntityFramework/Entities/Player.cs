@@ -12,8 +12,13 @@ namespace Runner.EntityFramework.Entities
 {
     class Player : Entity
     {
+        public bool Jumping { get; set; }
+        public bool ForceDown { get; set; }
+
         public Player()
         {
+            Jumping = false;
+            ForceDown = false;
             int s_height = GameUtil.spriteDictionary["player"].Height;
             int s_width = GameUtil.spriteDictionary["player"].Width / GameUtil.player_frames;
             this.AddComponent(new Mobile(s_height, s_width,

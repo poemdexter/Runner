@@ -32,13 +32,36 @@ namespace Runner.ScreenFramework.Framework
             InputElapsedTime -= gameTime.ElapsedGameTime.Milliseconds;
         }
 
-        public bool IsNewKeyPress(Keys key)
+        public bool IsNewKeyPress(Keys key, int inputDelay)
         {
             if (InputElapsedTime <= 0)
             {
                 if (CurrentKeyboardState.IsKeyDown(key))
                 {
-                    InputElapsedTime = GameUtil.arrowDelay;
+                    InputElapsedTime = inputDelay;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsNewKeyPress(Keys key)
+        {
+            return (CurrentKeyboardState.IsKeyDown(key)) ? true : false;
+        }
+
+        public bool IsCurrentKeyPress(Keys key)
+        {
+            return LastKeyboardState.IsKeyDown(key) && CurrentKeyboardState.IsKeyDown(key);
+        }
+
+        public bool IsNewLeftClick(int inputDelay)
+        {
+            if (InputElapsedTime <= 0)
+            {
+                if (CurrentMouseState.LeftButton == ButtonState.Pressed)
+                {
+                    InputElapsedTime = inputDelay;
                     return true;
                 }
             }
@@ -47,15 +70,7 @@ namespace Runner.ScreenFramework.Framework
 
         public bool IsNewLeftClick()
         {
-            if (InputElapsedTime <= 0)
-            {
-                if (CurrentMouseState.LeftButton == ButtonState.Pressed)
-                {
-                    InputElapsedTime = GameUtil.arrowDelay;
-                    return true;
-                }
-            }
-            return false;
+            return (CurrentMouseState.LeftButton == ButtonState.Pressed) ? true : false;
         }
 
         public Vector2 GetMousePosition()
