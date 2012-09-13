@@ -100,7 +100,6 @@ namespace Runner.ScreenFramework.Screens
                 arrowList.Add(new Arrow(input.GetMousePosition()));
             }
 
-            // TODO: add smooth jumping instead of linear
             #region Jump Logic
             /* We put this check above new jump check because if new jump check
              * is first, then we'll register new jump, see it's not same as old
@@ -116,7 +115,7 @@ namespace Runner.ScreenFramework.Screens
                     if ((player.GetComponent("Mobile") as Mobile).Position.Y <= GameUtil.playerY - GameUtil.maxJumpHeight)
                     {
                         player.ForceDown = true;
-                        (player.GetComponent("Mobile") as Mobile).Velocity = new Vector2(0, 2);
+                        (player.GetComponent("Mobile") as Mobile).Velocity += new Vector2(0, GameUtil.JumpFriction);
                     }
                 }
             }
@@ -125,7 +124,7 @@ namespace Runner.ScreenFramework.Screens
                 if (player.Jumping && !player.ForceDown)
                 {
                     player.ForceDown = true;
-                    (player.GetComponent("Mobile") as Mobile).Velocity = new Vector2(0, 2);
+                    (player.GetComponent("Mobile") as Mobile).Velocity += new Vector2(0, GameUtil.JumpFriction);
                 }
             }
 
@@ -134,13 +133,18 @@ namespace Runner.ScreenFramework.Screens
                 if (!player.Jumping && !player.ForceDown) // if not forcing down nor jumping, lets jump
                 {
                     player.Jumping = true;
-                    (player.GetComponent("Mobile") as Mobile).Velocity = new Vector2(0, -2);
+                    (player.GetComponent("Mobile") as Mobile).Velocity = new Vector2(0, GameUtil.JumpPower);
                 }
             }
 
             // we need to stop falling when we hit ground.
             if (player.ForceDown)
             {
+                if ((player.GetComponent("Mobile") as Mobile).Velocity.Y < GameUtil.FallPower)
+                {
+                    (player.GetComponent("Mobile") as Mobile).Velocity += new Vector2(0, GameUtil.JumpFriction);
+                }
+
                 if ((player.GetComponent("Mobile") as Mobile).Position.Y >= GameUtil.playerY)
                 {
                     Vector2 standPosition = (player.GetComponent("Mobile") as Mobile).Position;

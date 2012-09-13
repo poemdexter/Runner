@@ -21,7 +21,7 @@ namespace Runner.EntityFramework.Actions.MobAI
             {
                 Mobile mobile = this.Entity.GetComponent("Mobile") as Mobile;
 
-                if (mobile.Position.X < 200)
+                if (mobile.Position.X < (GameUtil.windowWidth / 3))
                 {
                     Attacking = true;
                     mobile.Velocity = CalculateVelocity(mobile.Position) * GameUtil.batSpeed;
