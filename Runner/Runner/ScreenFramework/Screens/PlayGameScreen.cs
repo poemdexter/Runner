@@ -51,7 +51,11 @@ namespace Runner.ScreenFramework.Screens
             {
                 foreach (Arrow arrow in arrowList)
                 {
-                    if (((Mobile)arrow.GetComponent("Mobile")).Position.X > GameUtil.windowWidth)
+                    Vector2 arrowPosition = ((Mobile)arrow.GetComponent("Mobile")).Position;
+                    if (arrowPosition.X > GameUtil.windowWidth
+                        || arrowPosition.Y > GameUtil.windowHeight
+                        || arrowPosition.X < 0 
+                        || arrowPosition.Y < 0)
                         arrow.IsAlive = false;
                     else
                         ((Mobile)arrow.GetComponent("Mobile")).Tick();
@@ -97,7 +101,7 @@ namespace Runner.ScreenFramework.Screens
             // firing arrows
             if (input.IsNewKeyPress(Keys.Z, GameUtil.arrowDelay) || input.IsNewLeftClick(GameUtil.arrowDelay)) // fire weapon
             {
-                arrowList.Add(new Arrow(input.GetMousePosition()));
+                arrowList.Add(new Arrow(input.GetMousePosition(), ((Mobile)player.GetComponent("Mobile")).Position));
             }
 
             #region Jump Logic
@@ -203,7 +207,7 @@ namespace Runner.ScreenFramework.Screens
                 foreach (Arrow arrow in arrowList)
                 {
                     Drawable arrowDrawable = (Drawable)arrow.GetComponent("Drawable");
-                    Batch.Draw(GameUtil.spriteDictionary[arrowDrawable.SpriteName], ((Mobile)arrow.GetComponent("Mobile")).Position, arrowDrawable.SourceRect, Color.White, arrowDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
+                    Batch.Draw(GameUtil.spriteDictionary[arrowDrawable.SpriteName], ((Mobile)arrow.GetComponent("Mobile")).Position, arrowDrawable.SourceRect, Color.White, arrowDrawable.Rotation, arrow.Origin, 1, SpriteEffects.None, 0);
                 }
             }
 
