@@ -40,7 +40,7 @@ namespace Runner.ScreenFramework.Screens
             // draw title
             spriteBatch.DrawString(font, GameOverText, new Vector2(graphics.Viewport.Width / 2, 100), Color.White, 0, font.MeasureString(GameOverText) / 2, 4f, SpriteEffects.None, 0);
 
-            spriteBatch.DrawString(font, "Score: " + Score, new Vector2(graphics.Viewport.Width / 2, 200), Color.White, 0, font.MeasureString("Score: " + Score) / 2, 4f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(font, "Mobs Killed: " + Score, new Vector2(graphics.Viewport.Width / 2, 200), Color.White, 0, font.MeasureString("Score: " + Score) / 2, 4f, SpriteEffects.None, 0);
 
             spriteBatch.DrawString(font, InstructionText, new Vector2(graphics.Viewport.Width / 2, 300), Color.White, 0, font.MeasureString(InstructionText) / 2, 4f, SpriteEffects.None, 0);
 

@@ -13,7 +13,7 @@ namespace Runner.EntityFramework.Entities
     {
         public Vector2 Origin { get; set; }
 
-        public Arrow(Vector2 target, Vector2 playerPosition)  // TODO Get arrow to be centered on sprite instead of corner
+        public Arrow(Vector2 target, Vector2 playerPosition)
         {
 
             int s_height = GameUtil.spriteDictionary["arrow"].Height;

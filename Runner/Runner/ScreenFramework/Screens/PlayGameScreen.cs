@@ -17,6 +17,7 @@ namespace Runner.ScreenFramework.Screens
         List<Arrow> arrowList;
 
         Bat bat;
+        Spider spider;
         Player player;
 
         int score = 0;
@@ -32,6 +33,7 @@ namespace Runner.ScreenFramework.Screens
         {
             arrowList = new List<Arrow>();
             bat = new Bat();
+            spider = new Spider();
             player = new Player();
         }
 
@@ -72,6 +74,16 @@ namespace Runner.ScreenFramework.Screens
             {
                 ((Mobile)bat.GetComponent("Mobile")).Tick();
                 if (((Mobile)bat.GetComponent("Mobile")).Position.X < -100) { bat.IsAlive = false; }
+            }
+
+            if (!spider.IsAlive)
+            {
+                spider = new Spider();
+            }
+            else
+            {
+                ((Mobile)spider.GetComponent("Mobile")).Tick();
+                if (((Mobile)spider.GetComponent("Mobile")).Position.X < -100) { spider.IsAlive = false; }
             }
 
             if (player.Jumping || player.ForceDown)
@@ -190,7 +202,7 @@ namespace Runner.ScreenFramework.Screens
             Batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null);
 
             Batch.DrawString(Font, "Runner Prototype " + GameUtil.VERSION, new Vector2(20, 20), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
-            Batch.DrawString(Font, "BAT SCORE: " + score, new Vector2(20, 40), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
+            Batch.DrawString(Font, "MOBS KILLED: " + score, new Vector2(20, 40), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
 
             // draw player HP
             for (int i = 0; i < (player.GetComponent("Hitpoints") as Hitpoints).HP; i++)
@@ -217,7 +229,11 @@ namespace Runner.ScreenFramework.Screens
                 Batch.Draw(GameUtil.spriteDictionary[batDrawable.SpriteName], ((Mobile)bat.GetComponent("Mobile")).Position, batDrawable.SourceRect, Color.White, batDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
             }
 
-            
+            if (spider.IsAlive)
+            {
+                Drawable spiderDrawable = (Drawable)spider.GetComponent("Drawable");
+                Batch.Draw(GameUtil.spriteDictionary[spiderDrawable.SpriteName], ((Mobile)spider.GetComponent("Mobile")).Position, spiderDrawable.SourceRect, Color.White, spiderDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
+            }
 
             Batch.End();
 
@@ -241,6 +257,21 @@ namespace Runner.ScreenFramework.Screens
                 }
             }
 
+            // arrow on spider collision
+            if (arrowList.Count > 0 && spider.IsAlive)
+            {
+                foreach (Arrow arrow in arrowList)
+                {
+                    if (((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)spider.GetComponent("Mobile")).BoundingBox))
+                    {
+                        arrow.IsAlive = false;
+                        spider.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
+                        score++;
+                        break;
+                    }
+                }
+            }
+
             // bat on player collision
             if (bat.IsAlive)
             {
@@ -248,6 +279,21 @@ namespace Runner.ScreenFramework.Screens
                 {
                     bat.IsAlive = false;
                     player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.batDmg));
+                    if (!player.IsAlive)
+                    {
+                        ScreenManager.AddScreen(new GameOverScreen(score));
+                        ScreenManager.RemoveScreen(this);  // back to title screen
+                    }
+                }
+            }
+
+            // spider on player collision
+            if (spider.IsAlive)
+            {
+                if (((Mobile)spider.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
+                {
+                    spider.IsAlive = false;
+                    player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.spiderDmg));
                     if (!player.IsAlive)
                     {
                         ScreenManager.AddScreen(new GameOverScreen(score));
