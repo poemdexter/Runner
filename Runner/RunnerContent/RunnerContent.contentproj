@@ -37,13 +37,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="player\char_bandit.png">
-      <Name>char_bandit</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="environment\ground.png">
       <Name>ground</Name>
       <Importer>TextureImporter</Importer>

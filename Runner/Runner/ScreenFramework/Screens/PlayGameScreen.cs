@@ -214,12 +214,16 @@ namespace Runner.ScreenFramework.Screens
             Drawable playerDrawable = (Drawable)player.GetComponent("Drawable");
             Batch.Draw(GameUtil.spriteDictionary[playerDrawable.SpriteName], ((Mobile)player.GetComponent("Mobile")).Position, playerDrawable.SourceRect, Color.White, playerDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
 
+            // draw arrows
             if (arrowList.Count > 0)
             {
+                Texture2D debugTexture = new Texture2D(Graphics, 1, 1);
+                debugTexture.SetData(new Color[] { Color.Brown });
                 foreach (Arrow arrow in arrowList)
                 {
                     Drawable arrowDrawable = (Drawable)arrow.GetComponent("Drawable");
-                    Batch.Draw(GameUtil.spriteDictionary[arrowDrawable.SpriteName], ((Mobile)arrow.GetComponent("Mobile")).Position, arrowDrawable.SourceRect, Color.White, arrowDrawable.Rotation, arrow.Origin, 1, SpriteEffects.None, 0);
+                    Batch.Draw(GameUtil.spriteDictionary[arrowDrawable.SpriteName], ((Mobile)arrow.GetComponent("Mobile")).Position, arrowDrawable.SourceRect, Color.White, arrowDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
+                    //Batch.Draw(debugTexture, ((Mobile)arrow.GetComponent("Mobile")).BoundingBox, Color.BlanchedAlmond);
                 }
             }
 
