@@ -18,6 +18,8 @@ namespace Runner.ScreenFramework.Screens
 
         Bat bat;
         Spider spider;
+        Cultist cultist;
+
         Player player;
 
         int score = 0;
@@ -34,6 +36,7 @@ namespace Runner.ScreenFramework.Screens
             arrowList = new List<Arrow>();
             bat = new Bat();
             spider = new Spider();
+            cultist = new Cultist();
             player = new Player();
         }
 
@@ -69,6 +72,7 @@ namespace Runner.ScreenFramework.Screens
             if (!bat.IsAlive)
             {
                 bat = new Bat();
+                score++;
             }
             else
             {
@@ -79,11 +83,23 @@ namespace Runner.ScreenFramework.Screens
             if (!spider.IsAlive)
             {
                 spider = new Spider();
+                score++;
             }
             else
             {
                 ((Mobile)spider.GetComponent("Mobile")).Tick();
                 if (((Mobile)spider.GetComponent("Mobile")).Position.X < -100) { spider.IsAlive = false; }
+            }
+
+            if (!cultist.IsAlive)
+            {
+                cultist = new Cultist();
+                score++;
+            }
+            else
+            {
+                ((Mobile)cultist.GetComponent("Mobile")).Tick();
+                if (((Mobile)cultist.GetComponent("Mobile")).Position.X < -100) { cultist.IsAlive = false; }
             }
 
             if (player.Jumping || player.ForceDown)
@@ -106,6 +122,7 @@ namespace Runner.ScreenFramework.Screens
         {
             int elapsedTime = (int)time.ElapsedGameTime.TotalMilliseconds;
             player.DoAction("NextFrameOfAnimation", new AnimationTimeArgs(elapsedTime));
+            cultist.DoAction("NextFrameOfAnimation", new AnimationTimeArgs(elapsedTime));
         }
 
         public override void HandleInput(InputState input)
@@ -239,6 +256,12 @@ namespace Runner.ScreenFramework.Screens
                 Batch.Draw(GameUtil.spriteDictionary[spiderDrawable.SpriteName], ((Mobile)spider.GetComponent("Mobile")).Position, spiderDrawable.SourceRect, Color.White, spiderDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
             }
 
+            if (cultist.IsAlive)
+            {
+                Drawable cultistDrawable = (Drawable)cultist.GetComponent("Drawable");
+                Batch.Draw(GameUtil.spriteDictionary[cultistDrawable.SpriteName], ((Mobile)cultist.GetComponent("Mobile")).Position, cultistDrawable.SourceRect, Color.White, cultistDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
+            }
+
             Batch.End();
 
             base.Draw(gameTime);
@@ -246,32 +269,33 @@ namespace Runner.ScreenFramework.Screens
 
         private void CheckCollisions()
         {
-            // arrow on bat collision
-            if (arrowList.Count > 0 && bat.IsAlive)
+            
+            if (arrowList.Count > 0)
             {
                 foreach (Arrow arrow in arrowList)
                 {
-                    if (((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)bat.GetComponent("Mobile")).BoundingBox))
+                    // arrow on bat collision
+                    if (bat.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)bat.GetComponent("Mobile")).BoundingBox))
                     {
                         arrow.IsAlive = false;
                         bat.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
-                        score++;
-                        break;
+                        continue;
                     }
-                }
-            }
 
-            // arrow on spider collision
-            if (arrowList.Count > 0 && spider.IsAlive)
-            {
-                foreach (Arrow arrow in arrowList)
-                {
-                    if (((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)spider.GetComponent("Mobile")).BoundingBox))
+                    // arrow on spider collision
+                    if (spider.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)spider.GetComponent("Mobile")).BoundingBox))
                     {
                         arrow.IsAlive = false;
                         spider.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
-                        score++;
-                        break;
+                        continue;
+                    }
+
+                    // arrow on cultist collision
+                    if (cultist.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)cultist.GetComponent("Mobile")).BoundingBox))
+                    {
+                        arrow.IsAlive = false;
+                        cultist.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
+                        continue;
                     }
                 }
             }
@@ -298,6 +322,21 @@ namespace Runner.ScreenFramework.Screens
                 {
                     spider.IsAlive = false;
                     player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.spiderDmg));
+                    if (!player.IsAlive)
+                    {
+                        ScreenManager.AddScreen(new GameOverScreen(score));
+                        ScreenManager.RemoveScreen(this);  // back to title screen
+                    }
+                }
+            }
+
+            // cultist on player collision
+            if (cultist.IsAlive)
+            {
+                if (((Mobile)cultist.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
+                {
+                    cultist.IsAlive = false;
+                    player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.cultistDmg));
                     if (!player.IsAlive)
                     {
                         ScreenManager.AddScreen(new GameOverScreen(score));

@@ -83,6 +83,7 @@
     <Compile Include="EntityFramework\Components\Mobile.cs" />
     <Compile Include="EntityFramework\Entities\Arrow.cs" />
     <Compile Include="EntityFramework\Entities\Bat.cs" />
+    <Compile Include="EntityFramework\Entities\Cultist.cs" />
     <Compile Include="EntityFramework\Entities\Player.cs" />
     <Compile Include="EntityFramework\Entities\Spider.cs" />
     <Compile Include="EntityFramework\Framework\ActionArgs.cs" />

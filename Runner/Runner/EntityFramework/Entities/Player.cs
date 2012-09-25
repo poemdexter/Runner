@@ -22,7 +22,7 @@ namespace Runner.EntityFramework.Entities
             int s_height = GameUtil.spriteDictionary["player"].Height;
             int s_width = GameUtil.spriteDictionary["player"].Width / GameUtil.player_frames;
             this.AddComponent(new Mobile(s_height, s_width,
-                                        new Vector2(GameUtil.playerX, GameUtil.playerY),
+                                        new Vector2(GameUtil.playerX, GameUtil.groundY - s_height),
                                         Vector2.Zero));
 
             this.AddComponent(new Drawable("player", s_height, s_width, 0, 2, true, SpriteEffects.None));

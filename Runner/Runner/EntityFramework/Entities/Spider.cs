@@ -18,9 +18,10 @@ namespace Runner.EntityFramework.Entities
             int s_width = GameUtil.spriteDictionary["spider"].Width / GameUtil.spider_frames;
 
             this.AddComponent(new Mobile(s_height, s_width,
-                                        new Vector2(GameUtil.windowWidth, GameUtil.playerY + 8),
+                                        new Vector2(GameUtil.windowWidth, GameUtil.groundY - s_height),
                                         new Vector2(-1, 0) * GameUtil.spiderSpeed));
-            this.AddComponent(new Drawable("spider", s_height, s_width, 0, 1, true, SpriteEffects.None));
+            this.AddComponent(new Drawable("spider", s_height, s_width, 0, 
+                                            GameUtil.spider_frames, true, SpriteEffects.None));
             this.AddComponent(new Hitpoints(GameUtil.spiderHP));
             this.AddAction(new TakeDamage());
             IsAlive = true;

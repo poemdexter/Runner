@@ -18,6 +18,8 @@ namespace Runner
         public static int playerX = 100;
         public static int playerY = 500;
 
+        public static int groundY = 564;
+
         public static int arrowSpeed = 15;
         public static int arrowDelay = 300;
 
@@ -29,11 +31,13 @@ namespace Runner
         public static int spider_frames = 1;
         public static int arrow_frames = 1;
         public static int player_frames = 2;
+        public static int cultist_frames = 2;
 
         // HP values
         public static int playerHP = 3;
         public static int batHP = 1;
-        public static int spiderHP = 2;
+        public static int spiderHP = 1;
+        public static int cultistHP = 2;
 
         // Weapon dmg
         public static int arrowDmg = 1;
@@ -41,13 +45,16 @@ namespace Runner
         // Mob dmg
         public static int batDmg = 1;
         public static int spiderDmg = 1;
+        public static int cultistDmg = 1;
 
         // Mob speed
         public static int batSpeed = 6;
         public static int spiderSpeed = 4;
+        public static int cultistSpeed = 6;
 
         // Animation timing
         public static int playerAnimationLength = 200;
+        public static int cultistAnimationLength = 200;
 
         // jump constants
         public static int maxJumpHeight = 100;
@@ -64,6 +71,9 @@ namespace Runner
             spriteDictionary.Add("background", Content.Load<Texture2D>("environment/background"));
             spriteDictionary.Add("player", Content.Load<Texture2D>("player/hunter_ani"));
             spriteDictionary.Add("heart", Content.Load<Texture2D>("entities/heart"));
+            spriteDictionary.Add("cultist", Content.Load<Texture2D>("mobs/cultist_ani"));
         }
+
+        
     }
 }

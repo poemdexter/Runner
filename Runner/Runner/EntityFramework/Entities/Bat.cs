@@ -22,7 +22,8 @@ namespace Runner.EntityFramework.Entities
                                         GameUtil.random.Next(100, 400)),
                                         new Vector2(-1, 0) * GameUtil.batSpeed));
 
-            this.AddComponent(new Drawable("bat", s_height, s_width, 0, 1, true, SpriteEffects.None));
+            this.AddComponent(new Drawable("bat", s_height, s_width, 0, 
+                                            GameUtil.bat_frames, true, SpriteEffects.None));
             this.AddComponent(new Hitpoints(GameUtil.batHP));
             this.AddAction(new TakeDamage());
             this.AddAction(new BatAttack());
