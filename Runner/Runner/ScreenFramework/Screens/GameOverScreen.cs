@@ -12,7 +12,7 @@ namespace Runner.ScreenFramework.Screens
     class GameOverScreen : GameScreen
     {
         private const string GameOverText = "- GAME OVER -";
-        private const string InstructionText = "Press Enter to go back to main menu.";
+        private const string InstructionText = "Press Spacebar to go back to main menu.";
         int Score { get; set; }
 
         public GameOverScreen(int score)
@@ -22,7 +22,7 @@ namespace Runner.ScreenFramework.Screens
 
         public override void HandleInput(InputState input)
         {
-            if (input.IsNewKeyPress(Keys.Enter))
+            if (input.IsNewKeyPress(Keys.Space))
             {
                 ScreenManager.AddScreen(new TitleScreen());
                 ScreenManager.RemoveScreen(this);

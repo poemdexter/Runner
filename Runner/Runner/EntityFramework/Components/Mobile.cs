@@ -25,6 +25,7 @@ namespace Runner.EntityFramework.Components
             }
         }
 
+        public Mobile() { }
 
         public Mobile(int sprite_h, int sprite_w, Vector2 position, Vector2 velocity)
         {

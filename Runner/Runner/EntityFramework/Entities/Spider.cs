@@ -7,6 +7,7 @@ using Runner.EntityFramework.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Runner.EntityFramework.Actions;
+using Runner.EntityFramework.Actions.MobAI;
 
 namespace Runner.EntityFramework.Entities
 {
@@ -17,7 +18,7 @@ namespace Runner.EntityFramework.Entities
             int s_height = GameUtil.spriteDictionary["spider"].Height;
             int s_width = GameUtil.spriteDictionary["spider"].Width / GameUtil.spider_frames;
 
-            this.AddComponent(new Mobile(s_height, s_width,
+            this.AddComponent(new Jumping(s_height, s_width,
                                         new Vector2(GameUtil.windowWidth, GameUtil.groundY - s_height),
                                         new Vector2(-1, 0) * GameUtil.spiderSpeed));
             this.AddComponent(new Drawable("spider", s_height, s_width, 0, 

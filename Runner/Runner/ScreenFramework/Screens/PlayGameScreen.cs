@@ -9,6 +9,7 @@ using Runner.ScreenFramework.Framework;
 using Runner.EntityFramework.Components;
 using Runner.EntityFramework.Entities;
 using Runner.EntityFramework.Args;
+using Runner.EntityFramework.Actions.MobAI;
 
 namespace Runner.ScreenFramework.Screens
 {
@@ -80,6 +81,7 @@ namespace Runner.ScreenFramework.Screens
                 if (((Mobile)bat.GetComponent("Mobile")).Position.X < -100) { bat.IsAlive = false; }
             }
 
+            // same for spider
             if (!spider.IsAlive)
             {
                 spider = new Spider();
@@ -87,10 +89,11 @@ namespace Runner.ScreenFramework.Screens
             }
             else
             {
-                ((Mobile)spider.GetComponent("Mobile")).Tick();
-                if (((Mobile)spider.GetComponent("Mobile")).Position.X < -100) { spider.IsAlive = false; }
+                ((Jumping)spider.GetComponent("Jumping")).Tick();
+                if (((Jumping)spider.GetComponent("Jumping")).Position.X < -100) { spider.IsAlive = false; }
             }
 
+            // same for cultist
             if (!cultist.IsAlive)
             {
                 cultist = new Cultist();
@@ -253,7 +256,7 @@ namespace Runner.ScreenFramework.Screens
             if (spider.IsAlive)
             {
                 Drawable spiderDrawable = (Drawable)spider.GetComponent("Drawable");
-                Batch.Draw(GameUtil.spriteDictionary[spiderDrawable.SpriteName], ((Mobile)spider.GetComponent("Mobile")).Position, spiderDrawable.SourceRect, Color.White, spiderDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
+                Batch.Draw(GameUtil.spriteDictionary[spiderDrawable.SpriteName], ((Jumping)spider.GetComponent("Jumping")).Position, spiderDrawable.SourceRect, Color.White, spiderDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
             }
 
             if (cultist.IsAlive)
@@ -283,7 +286,7 @@ namespace Runner.ScreenFramework.Screens
                     }
 
                     // arrow on spider collision
-                    if (spider.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)spider.GetComponent("Mobile")).BoundingBox))
+                    if (spider.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Jumping)spider.GetComponent("Jumping")).BoundingBox))
                     {
                         arrow.IsAlive = false;
                         spider.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
@@ -318,7 +321,7 @@ namespace Runner.ScreenFramework.Screens
             // spider on player collision
             if (spider.IsAlive)
             {
-                if (((Mobile)spider.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
+                if (((Jumping)spider.GetComponent("Jumping")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
                 {
                     spider.IsAlive = false;
                     player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.spiderDmg));
