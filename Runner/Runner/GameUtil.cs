@@ -9,7 +9,7 @@ namespace Runner
 {
     public static class GameUtil
     {
-        public const String VERSION = "0.0.7";
+        public const String VERSION = "0.0.7a";
 
         public static int windowHeight = 720;
         public static int windowWidth = 1280;
