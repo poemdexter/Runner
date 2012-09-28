@@ -19,7 +19,8 @@ namespace Runner.EntityFramework.Entities
 
             this.AddComponent(new Mobile(s_height, s_width,
                                         new Vector2(GameUtil.windowWidth, GameUtil.groundY - s_height),
-                                        new Vector2(-1, 0) * GameUtil.cultistSpeed));
+                                        new Vector2(-1, 0) * GameUtil.cultistSpeed, GameUtil.cultistDmg));
+            this.AddAction(new Move("none"));
             this.AddComponent(new Drawable("cultist", s_height, s_width, 0, 
                                             GameUtil.cultist_frames, true, SpriteEffects.None));
             this.AddComponent(new Hitpoints(GameUtil.cultistHP));

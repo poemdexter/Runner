@@ -5,7 +5,7 @@ using System.Text;
 using Runner.EntityFramework.Framework;
 using Runner.EntityFramework.Entities;
 using Runner.EntityFramework.Components;
-using Runner.EntityFramework.Actions.MobAI;
+using Runner.EntityFramework.Actions.AttackAI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,25 +19,24 @@ namespace Runner.Managers
     {
         public List<Entity> MobList;
         List<Arrow> arrowList;
-        public Player player {get; set;}
-        Bat bat;
-        Spider spider;
-        Cultist cultist;
 
+        public Player player {get; set;}
         public int Score { get; set; }
+
+        int updateTime = 0;
 
         public LevelManager()
         {
             arrowList = new List<Arrow>();
             player = new Player();
             MobList = new List<Entity>();
-            bat = new Bat();
-            spider = new Spider();
-            cultist = new Cultist();
+            //bat = new Bat();
+            //spider = new Spider();
+            //cultist = new Cultist();
             Score = 0;
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             // move the arrows
             if (arrowList.Count > 0)
@@ -51,50 +50,47 @@ namespace Runner.Managers
                         || arrowPosition.Y < 0)
                         arrow.IsAlive = false;
                     else
-                        ((Mobile)arrow.GetComponent("Mobile")).Tick();
+                        arrow.DoAction("Move");
                 }
                 CleanArrowList();
             }
 
-            // make a bat if dead else move bat
-            if (!bat.IsAlive)
+            // controls how often to spawn enemies
+            updateTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (updateTime >= GameUtil.level_1_spawnTime)
             {
-                bat = new Bat();
-                Score++;
-            }
-            else
-            {
-                ((Mobile)bat.GetComponent("Mobile")).Tick();
-                if (((Mobile)bat.GetComponent("Mobile")).Position.X < -100) { bat.IsAlive = false; }
+                // spawn mob
+                int spawnChance = GameUtil.random.Next(1, 101);
+                if (spawnChance < 40)
+                {
+                    MobList.Add(new Bat());
+                }
+                else if (spawnChance < 80)
+                {
+                    MobList.Add(new Spider());
+                }
+                else
+                {
+                    MobList.Add(new Cultist());
+                }
+                
+
+                updateTime = 0;
             }
 
-            // same for spider
-            if (!spider.IsAlive)
+            if (MobList.Count > 0)
             {
-                spider = new Spider();
-                Score++;
-            }
-            else
-            {
-                ((Jumping)spider.GetComponent("Jumping")).Tick();
-                if (((Jumping)spider.GetComponent("Jumping")).Position.X < -100) { spider.IsAlive = false; }
-            }
-
-            // same for cultist
-            if (!cultist.IsAlive)
-            {
-                cultist = new Cultist();
-                Score++;
-            }
-            else
-            {
-                ((Mobile)cultist.GetComponent("Mobile")).Tick();
-                if (((Mobile)cultist.GetComponent("Mobile")).Position.X < -100) { cultist.IsAlive = false; }
+                foreach (Entity mob in MobList)
+                {
+                    mob.DoAction("Move");
+                    if (((Mobile)mob.GetComponent("Mobile")).Position.X < -100) { mob.IsAlive = false; }
+                }
+                CleanMobList();
             }
 
             if (player.Jumping || player.ForceDown)
             {
-                ((Mobile)player.GetComponent("Mobile")).Tick();
+                player.DoAction("Move");
             }
         }
 
@@ -118,22 +114,13 @@ namespace Runner.Managers
                 }
             }
 
-            if (bat.IsAlive)
+            if (MobList.Count > 0)
             {
-                Drawable batDrawable = (Drawable)bat.GetComponent("Drawable");
-                Batch.Draw(GameUtil.spriteDictionary[batDrawable.SpriteName], ((Mobile)bat.GetComponent("Mobile")).Position, batDrawable.SourceRect, Color.White, batDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
-            }
-
-            if (spider.IsAlive)
-            {
-                Drawable spiderDrawable = (Drawable)spider.GetComponent("Drawable");
-                Batch.Draw(GameUtil.spriteDictionary[spiderDrawable.SpriteName], ((Jumping)spider.GetComponent("Jumping")).Position, spiderDrawable.SourceRect, Color.White, spiderDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
-            }
-
-            if (cultist.IsAlive)
-            {
-                Drawable cultistDrawable = (Drawable)cultist.GetComponent("Drawable");
-                Batch.Draw(GameUtil.spriteDictionary[cultistDrawable.SpriteName], ((Mobile)cultist.GetComponent("Mobile")).Position, cultistDrawable.SourceRect, Color.White, cultistDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
+                foreach (Entity mob in MobList)
+                {
+                    Drawable mobDrawable = (Drawable)mob.GetComponent("Drawable");
+                    Batch.Draw(GameUtil.spriteDictionary[mobDrawable.SpriteName], ((Mobile)mob.GetComponent("Mobile")).Position, mobDrawable.SourceRect, Color.White, mobDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
+                }
             }
         }
 
@@ -144,92 +131,78 @@ namespace Runner.Managers
 
         public void CheckCollisions(ScreenManager ScreenManager, GameScreen playScreen)
         {
-            if (arrowList.Count > 0)
+            // arrow on mob collision
+            if (arrowList.Count > 0 && MobList.Count > 0)
             {
                 foreach (Arrow arrow in arrowList)
                 {
-                    // arrow on bat collision
-                    if (bat.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)bat.GetComponent("Mobile")).BoundingBox))
+                    foreach (Entity mob in MobList)
                     {
-                        arrow.IsAlive = false;
-                        bat.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
-                        continue;
-                    }
-
-                    // arrow on spider collision
-                    if (spider.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Jumping)spider.GetComponent("Jumping")).BoundingBox))
-                    {
-                        arrow.IsAlive = false;
-                        spider.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
-                        continue;
-                    }
-
-                    // arrow on cultist collision
-                    if (cultist.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)cultist.GetComponent("Mobile")).BoundingBox))
-                    {
-                        arrow.IsAlive = false;
-                        cultist.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
-                        continue;
+                        if (arrow.IsAlive && mob.IsAlive && ((Mobile)arrow.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)mob.GetComponent("Mobile")).BoundingBox))
+                        {
+                            arrow.IsAlive = false;
+                            mob.DoAction("TakeDamage", new SingleIntArgs(GameUtil.arrowDmg));
+                            if (!mob.IsAlive)
+                                Score++;
+                            continue;
+                        }
                     }
                 }
+                CleanArrowList();
+                CleanMobList();
             }
 
-            // bat on player collision
-            if (bat.IsAlive)
+            // mob on player collision
+            if (MobList.Count > 0)
             {
-                if (((Mobile)bat.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
+                foreach (Entity mob in MobList)
                 {
-                    bat.IsAlive = false;
-                    player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.batDmg));
-                    if (!player.IsAlive)
+                    if (mob.IsAlive)
                     {
-                        ScreenManager.AddScreen(new GameOverScreen(Score));
-                        ScreenManager.RemoveScreen(playScreen);  // back to title screen
+                        if (((Mobile)mob.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
+                        {
+                            mob.IsAlive = false;
+                            player.DoAction("TakeDamage", new SingleIntArgs(((Mobile)mob.GetComponent("Mobile")).CollisionDamage));
+                            if (!player.IsAlive)
+                            {
+                                ScreenManager.AddScreen(new GameOverScreen(Score));
+                                ScreenManager.RemoveScreen(playScreen);  // back to title screen
+                            }
+                        }
                     }
                 }
-            }
-
-            // spider on player collision
-            if (spider.IsAlive)
-            {
-                if (((Jumping)spider.GetComponent("Jumping")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
-                {
-                    spider.IsAlive = false;
-                    player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.spiderDmg));
-                    if (!player.IsAlive)
-                    {
-                        ScreenManager.AddScreen(new GameOverScreen(Score));
-                        ScreenManager.RemoveScreen(playScreen);  // back to title screen
-                    }
-                }
-            }
-
-            // cultist on player collision
-            if (cultist.IsAlive)
-            {
-                if (((Mobile)cultist.GetComponent("Mobile")).BoundingBox.Intersects(((Mobile)player.GetComponent("Mobile")).BoundingBox))
-                {
-                    cultist.IsAlive = false;
-                    player.DoAction("TakeDamage", new SingleIntArgs(GameUtil.cultistDmg));
-                    if (!player.IsAlive)
-                    {
-                        ScreenManager.AddScreen(new GameOverScreen(Score));
-                        ScreenManager.RemoveScreen(playScreen);  // back to title screen
-                    }
-                }
+                CleanMobList();
             }
         }
 
         public void CheckMobAI()
         {
-            bat.DoAction("BatAttack");
+            if (MobList.Count > 0)
+            {
+                foreach (Entity mob in MobList)
+                {
+                    if (mob.IsAlive)
+                    {
+                        mob.DoAction("MobAttackAI");
+                    }
+                }
+            }
         }
 
         public void AnimateObjects(GameTime time)
         {
             int elapsedTime = (int)time.ElapsedGameTime.TotalMilliseconds;
             player.DoAction("NextFrameOfAnimation", new AnimationTimeArgs(elapsedTime));
-            cultist.DoAction("NextFrameOfAnimation", new AnimationTimeArgs(elapsedTime));
+            if (MobList.Count > 0)
+            {
+                foreach (Entity mob in MobList)
+                {
+                    if (mob.IsAlive)
+                    {
+                        mob.DoAction("NextFrameOfAnimation", new AnimationTimeArgs(elapsedTime));
+                    }
+                }
+            }
         }
 
         private void CleanArrowList()
@@ -238,6 +211,15 @@ namespace Runner.Managers
             {
                 if (!arrowList[i].IsAlive)
                     arrowList.RemoveAt(i);
+            }
+        }
+
+        private void CleanMobList()
+        {
+            for (int i = MobList.Count - 1; i >= 0; --i)
+            {
+                if (!MobList[i].IsAlive)
+                    MobList.RemoveAt(i);
             }
         }
 

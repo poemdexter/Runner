@@ -9,7 +9,7 @@ namespace Runner
 {
     public static class GameUtil
     {
-        public const String VERSION = "0.0.7a";
+        public const String VERSION = "0.0.8";
 
         public static int windowHeight = 720;
         public static int windowWidth = 1280;
@@ -25,6 +25,9 @@ namespace Runner
 
         public static Random random = new Random();
         public static IDictionary<String, Texture2D> spriteDictionary = new Dictionary<String, Texture2D>();
+
+        // Time between mob spawns
+        public static double level_1_spawnTime = .5 * 1000;
 
         // Animation Frames for each Image
         public static int bat_frames = 1;

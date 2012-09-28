@@ -9,7 +9,7 @@ using Runner.ScreenFramework.Framework;
 using Runner.EntityFramework.Components;
 using Runner.EntityFramework.Entities;
 using Runner.EntityFramework.Args;
-using Runner.EntityFramework.Actions.MobAI;
+using Runner.EntityFramework.Actions.AttackAI;
 using Runner.Managers;
 
 namespace Runner.ScreenFramework.Screens
@@ -39,7 +39,7 @@ namespace Runner.ScreenFramework.Screens
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            levelManager.Update();
+            levelManager.Update(gameTime);
             levelManager.AnimateObjects(gameTime);
             levelManager.CheckCollisions(ScreenManager, this);
             levelManager.CheckMobAI();

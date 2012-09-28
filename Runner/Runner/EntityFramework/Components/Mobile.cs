@@ -13,6 +13,8 @@ namespace Runner.EntityFramework.Components
         public Vector2 Velocity { get; set; }
         public int SpriteHeight { get; set; }
         public int SpriteWidth { get; set; }
+        public int CollisionDamage { get; set; }
+
         public Rectangle BoundingBox
         {
             get
@@ -25,20 +27,14 @@ namespace Runner.EntityFramework.Components
             }
         }
 
-        public Mobile() { }
-
-        public Mobile(int sprite_h, int sprite_w, Vector2 position, Vector2 velocity)
+        public Mobile(int sprite_h, int sprite_w, Vector2 position, Vector2 velocity, int collisionDmg)
         {
             this.Name = "Mobile";
             this.SpriteHeight = sprite_h;
             this.SpriteWidth = sprite_w;
             this.Position = position;
             this.Velocity = velocity;
-        }
-
-        public void Tick()
-        {
-            this.Position += this.Velocity;
+            this.CollisionDamage = collisionDmg;
         }
     }
 }

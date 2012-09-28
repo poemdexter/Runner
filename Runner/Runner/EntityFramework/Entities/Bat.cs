@@ -7,7 +7,7 @@ using Runner.EntityFramework.Framework;
 using Runner.EntityFramework.Components;
 using Microsoft.Xna.Framework.Graphics;
 using Runner.EntityFramework.Actions;
-using Runner.EntityFramework.Actions.MobAI;
+using Runner.EntityFramework.Actions.AttackAI;
 
 namespace Runner.EntityFramework.Entities
 {
@@ -20,12 +20,14 @@ namespace Runner.EntityFramework.Entities
             this.AddComponent(new Mobile(s_height, s_width,
                                         new Vector2(GameUtil.windowWidth,
                                         GameUtil.random.Next(100, 400)),
-                                        new Vector2(-1, 0) * GameUtil.batSpeed));
-
+                                        new Vector2(-1, 0) * GameUtil.batSpeed, GameUtil.batDmg));
+            this.AddAction(new Move("none"));
             this.AddComponent(new Drawable("bat", s_height, s_width, 0, 
                                             GameUtil.bat_frames, true, SpriteEffects.None));
             this.AddComponent(new Hitpoints(GameUtil.batHP));
             this.AddAction(new TakeDamage());
+
+            this.AddAction(new MobAttackAI("BatAttack"));
             this.AddAction(new BatAttack());
             IsAlive = true;
         }

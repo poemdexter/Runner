@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Runner.EntityFramework.Framework;
 using Runner.EntityFramework.Components;
 using Microsoft.Xna.Framework.Graphics;
+using Runner.EntityFramework.Actions;
 
 namespace Runner.EntityFramework.Entities
 {
@@ -17,10 +18,10 @@ namespace Runner.EntityFramework.Entities
             int s_height = GameUtil.spriteDictionary["arrow"].Height;
             int s_width = GameUtil.spriteDictionary["arrow"].Width / GameUtil.arrow_frames;
             IsAlive = true;
-            this.AddComponent(new Mobile(s_height, s_width,
-                                        CalculatePosition(playerPosition, s_height),
-                                        CalculateVelocity(target) * GameUtil.arrowSpeed));
-
+            Vector2 spawnPoint = CalculatePosition(playerPosition, s_height);
+            this.AddComponent(new Mobile(s_height, s_width, spawnPoint,
+                                        CalculateVelocity(target, spawnPoint) * GameUtil.arrowSpeed, GameUtil.arrowDmg));
+            this.AddAction(new Move("none"));
             this.AddComponent(new Drawable("arrow", s_height, s_width, 0, 1, true, SpriteEffects.None));
         }
 
@@ -31,10 +32,10 @@ namespace Runner.EntityFramework.Entities
                                playerPosition.Y + playerSprite.Center.Y - (spriteheight /2));
         }
 
-        private Vector2 CalculateVelocity(Vector2 target)
+        private Vector2 CalculateVelocity(Vector2 target, Vector2 spawnPoint)
         {
-            float rise = target.Y - GameUtil.playerY;
-            float run = target.X - GameUtil.playerX;
+            float rise = target.Y - spawnPoint.Y;
+            float run = target.X - spawnPoint.X;
             Vector2 slope = new Vector2(run, rise);
             return Vector2.Normalize(slope);
         }

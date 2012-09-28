@@ -23,8 +23,8 @@ namespace Runner.EntityFramework.Entities
             int s_width = GameUtil.spriteDictionary["player"].Width / GameUtil.player_frames;
             this.AddComponent(new Mobile(s_height, s_width,
                                         new Vector2(GameUtil.playerX, GameUtil.groundY - s_height),
-                                        Vector2.Zero));
-
+                                        Vector2.Zero, 0));
+            this.AddAction(new Move("none"));
             this.AddComponent(new Drawable("player", s_height, s_width, 0, 2, true, SpriteEffects.None));
             this.AddAction(new NextFrameOfAnimation());
             this.AddComponent(new Hitpoints(GameUtil.playerHP));
