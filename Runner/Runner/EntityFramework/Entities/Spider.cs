@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Runner.EntityFramework.Framework;
 using Runner.EntityFramework.Components;
+using Runner.EntityFramework.Actions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Runner.EntityFramework.Actions;
 using Runner.EntityFramework.Actions.AttackAI;
 using Runner.EntityFramework.Actions.MoveAI;
 
@@ -26,6 +26,7 @@ namespace Runner.EntityFramework.Entities
             this.AddAction(new Jumping());
             this.AddComponent(new Drawable("spider", s_height, s_width, 0, 
                                             GameUtil.spider_frames, true, SpriteEffects.None));
+            this.AddAction(new ChangeFrameOfAnimation());
             this.AddComponent(new Hitpoints(GameUtil.spiderHP));
             this.AddAction(new TakeDamage());
             IsAlive = true;

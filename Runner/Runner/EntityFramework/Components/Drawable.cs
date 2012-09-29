@@ -34,7 +34,7 @@ namespace Runner.EntityFramework.Components
             this.FrameHeight = frameHeight;
             this.FrameWidth = frameWidth;
             this.Rotation = rotation;
-            this.SourceRect = new Rectangle(this.CurrentFrame * this.FrameHeight, 0, this.FrameWidth, this.FrameHeight);
+            this.SourceRect = new Rectangle(this.CurrentFrame * this.FrameWidth, 0, this.FrameWidth, this.FrameHeight);
             this.ElapsedTimeCounter = 0;
         }
     }

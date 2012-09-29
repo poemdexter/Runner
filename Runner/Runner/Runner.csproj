@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityFramework\Actions\AttackAI\BatAttack.cs" />
+    <Compile Include="EntityFramework\Actions\ChangeFrameOfAnimation.cs" />
     <Compile Include="EntityFramework\Actions\MobAttackAI.cs" />
     <Compile Include="EntityFramework\Actions\MoveAI\Jumping.cs" />
     <Compile Include="EntityFramework\Actions\Move.cs" />

@@ -9,7 +9,7 @@ namespace Runner
 {
     public static class GameUtil
     {
-        public const String VERSION = "0.0.8";
+        public const String VERSION = "0.0.8a";
 
         public static int windowHeight = 720;
         public static int windowWidth = 1280;
@@ -30,8 +30,8 @@ namespace Runner
         public static double level_1_spawnTime = .5 * 1000;
 
         // Animation Frames for each Image
-        public static int bat_frames = 1;
-        public static int spider_frames = 1;
+        public static int bat_frames = 2;
+        public static int spider_frames = 2;
         public static int arrow_frames = 1;
         public static int player_frames = 2;
         public static int cultist_frames = 2;

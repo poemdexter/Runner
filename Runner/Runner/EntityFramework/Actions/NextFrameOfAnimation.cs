@@ -35,7 +35,7 @@ namespace Runner.EntityFramework.Actions
                         // make sure we haven't hit the end of drawable
                         if (drawable.CurrentFrame + 1 != drawable.FrameCount) { drawable.CurrentFrame++; }
                     }
-                    drawable.SourceRect = new Rectangle(drawable.CurrentFrame * drawable.FrameHeight, 0, drawable.FrameHeight, drawable.FrameHeight);
+                    drawable.SourceRect = new Rectangle(drawable.CurrentFrame * drawable.FrameWidth, 0, drawable.FrameWidth, drawable.FrameHeight);
                     drawable.ElapsedTimeCounter = 0;
                 }
             }

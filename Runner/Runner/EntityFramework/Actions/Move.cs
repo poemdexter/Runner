@@ -29,5 +29,19 @@ namespace Runner.EntityFramework.Actions
                 mobile.Position += mobile.Velocity;
             }
         }
+
+        public override void Do(ActionArgs args)
+        {
+            if (AIName != null && AIName != "" && AIName != "none")
+            {
+                this.Entity.DoAction(AIName, args);
+            }
+            else
+            {
+                // move at mob specific speed
+                Mobile mobile = this.Entity.GetComponent("Mobile") as Mobile;
+                mobile.Position += mobile.Velocity;
+            }
+        }
     }
 }

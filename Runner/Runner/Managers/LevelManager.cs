@@ -30,9 +30,6 @@ namespace Runner.Managers
             arrowList = new List<Arrow>();
             player = new Player();
             MobList = new List<Entity>();
-            //bat = new Bat();
-            //spider = new Spider();
-            //cultist = new Cultist();
             Score = 0;
         }
 
@@ -82,7 +79,7 @@ namespace Runner.Managers
             {
                 foreach (Entity mob in MobList)
                 {
-                    mob.DoAction("Move");
+                    mob.DoAction("Move", new SingleIntArgs(updateTime));
                     if (((Mobile)mob.GetComponent("Mobile")).Position.X < -100) { mob.IsAlive = false; }
                 }
                 CleanMobList();
@@ -103,14 +100,10 @@ namespace Runner.Managers
             // draw arrows
             if (arrowList.Count > 0)
             {
-                //Texture2D debugTexture = new Texture2D(Graphics, 1, 1);
-                //debugTexture.SetData(new Color[] { Color.Brown });
-
                 foreach (Arrow arrow in arrowList)
                 {
                     Drawable arrowDrawable = (Drawable)arrow.GetComponent("Drawable");
                     Batch.Draw(GameUtil.spriteDictionary[arrowDrawable.SpriteName], ((Mobile)arrow.GetComponent("Mobile")).Position, arrowDrawable.SourceRect, Color.White, arrowDrawable.Rotation, Vector2.Zero, 1, SpriteEffects.None, 0);
-                    //Batch.Draw(debugTexture, ((Mobile)arrow.GetComponent("Mobile")).BoundingBox, Color.BlanchedAlmond);
                 }
             }
 

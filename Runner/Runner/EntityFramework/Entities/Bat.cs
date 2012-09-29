@@ -26,7 +26,7 @@ namespace Runner.EntityFramework.Entities
                                             GameUtil.bat_frames, true, SpriteEffects.None));
             this.AddComponent(new Hitpoints(GameUtil.batHP));
             this.AddAction(new TakeDamage());
-
+            this.AddAction(new NextFrameOfAnimation());
             this.AddAction(new MobAttackAI("BatAttack"));
             this.AddAction(new BatAttack());
             IsAlive = true;
