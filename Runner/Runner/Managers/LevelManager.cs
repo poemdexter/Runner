@@ -79,7 +79,7 @@ namespace Runner.Managers
             {
                 foreach (Entity mob in MobList)
                 {
-                    mob.DoAction("Move", new SingleIntArgs(updateTime));
+                    mob.DoAction("Move", new SingleIntArgs((int)gameTime.ElapsedGameTime.TotalMilliseconds));
                     if (((Mobile)mob.GetComponent("Mobile")).Position.X < -100) { mob.IsAlive = false; }
                 }
                 CleanMobList();

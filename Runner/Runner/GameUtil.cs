@@ -27,7 +27,7 @@ namespace Runner
         public static IDictionary<String, Texture2D> spriteDictionary = new Dictionary<String, Texture2D>();
 
         // Time between mob spawns
-        public static double level_1_spawnTime = .5 * 1000;
+        public static double level_1_spawnTime = .6 * 1000;
 
         // Animation Frames for each Image
         public static int bat_frames = 2;
