@@ -50,13 +50,10 @@ namespace Runner.ScreenFramework.Screens
             // firing arrows
             if (input.IsNewKeyPress(Keys.Z, GameUtil.arrowDelay) || input.IsNewLeftClick(GameUtil.arrowDelay)) // fire weapon
             {
-                levelManager.AddArrow(input.GetMousePosition());
+                levelManager.Fire(input.GetMousePosition());
             }
 
             levelManager.HandlePlayerJump(input);
-
-            // uncomment below for awesome rope of bullets
-            // arrowList.Add(new Arrow(input.GetMousePosition()));
         }
 
         public override void Draw(GameTime gameTime)

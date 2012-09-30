@@ -117,8 +117,11 @@ namespace Runner.Managers
             }
         }
 
-        public void AddArrow(Vector2 mousePosition)
+        public void Fire(Vector2 mousePosition)
         {
+            // TODO Handle weapon modifications here
+
+            // normal single, one shot
             arrowList.Add(new Arrow(mousePosition, ((Mobile)player.GetComponent("Mobile")).Position));
         }
 
