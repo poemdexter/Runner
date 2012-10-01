@@ -96,6 +96,7 @@
     <Compile Include="GameUtil.cs" />
     <Compile Include="Managers\LevelManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
+    <Compile Include="Managers\WeaponManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
