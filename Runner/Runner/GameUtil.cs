@@ -9,7 +9,7 @@ namespace Runner
 {
     public static class GameUtil
     {
-        public const String VERSION = "0.0.8a";
+        public const String VERSION = "0.0.9";
 
         public static int MenuSelectDelay = 200;
 
