@@ -20,10 +20,12 @@ namespace Runner.Managers
         public List<Entity> MobList;
         List<Arrow> arrowList;
 
-        public Player player {get; set;}
+        public Player player { get; set; }
         public int Score { get; set; }
 
         int updateTime = 0;
+
+        public bool MultiShot { get; set; }
 
         public LevelManager()
         {
@@ -31,6 +33,7 @@ namespace Runner.Managers
             player = new Player();
             MobList = new List<Entity>();
             Score = 0;
+            MultiShot = false;
         }
 
         public void Update(GameTime gameTime)
@@ -70,7 +73,8 @@ namespace Runner.Managers
                 {
                     MobList.Add(new Cultist());
                 }
-                
+
+
                 updateTime = 0;
             }
 
@@ -116,14 +120,22 @@ namespace Runner.Managers
             }
         }
 
-        public void FireWeapon(InputState input)
+        public void Fire(Vector2 mousePosition)
         {
-            // TODO handle alternate properities for powerups
+            Vector2 arrowSpawnPosition = WeaponManager.CalculatePosition(((Mobile)player.GetComponent("Mobile")).Position, GameUtil.spriteDictionary["arrow"].Height);
+            Vector2 arrowVelocity = WeaponManager.CalculateVelocity(mousePosition, arrowSpawnPosition);
 
-            // normal single shot
-            arrowList.Add(new Arrow(input.GetMousePosition(), ((Mobile)player.GetComponent("Mobile")).Position));
-
-
+            // fires 3 shots with spread dependent on distance
+            if (MultiShot)
+            {
+                List<Arrow> multishotList = WeaponManager.MultiShot(arrowSpawnPosition, arrowVelocity);
+                foreach (Arrow a in multishotList) { arrowList.Add(a); }
+            }
+            else
+            {
+                // normal single, one shot
+                arrowList.Add(new Arrow(arrowSpawnPosition, Vector2.Normalize(arrowVelocity)));
+            }
         }
 
         public void CheckCollisions(ScreenManager ScreenManager, GameScreen playScreen)

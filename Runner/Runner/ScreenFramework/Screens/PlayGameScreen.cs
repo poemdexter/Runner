@@ -52,6 +52,10 @@ namespace Runner.ScreenFramework.Screens
             {
                 levelManager.Fire(input.GetMousePosition());
             }
+            else if (input.IsNewKeyPress(Keys.M, GameUtil.MenuSelectDelay)) 
+            {
+                levelManager.MultiShot = !levelManager.MultiShot;
+            }
 
             levelManager.HandlePlayerJump(input);
         }
@@ -83,6 +87,12 @@ namespace Runner.ScreenFramework.Screens
 
             Batch.DrawString(Font, "Runner Prototype " + GameUtil.VERSION, new Vector2(20, 20), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
             Batch.DrawString(Font, "MOBS KILLED: " + levelManager.Score, new Vector2(20, 40), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
+
+            // *** debug for multishot flags ***
+            if (levelManager.MultiShot)
+            {
+                Batch.DrawString(Font, "MULTI", new Vector2(400, 20), Color.White, 0, Vector2.Zero, GameUtil.fontScale, SpriteEffects.None, 0);
+            }
 
             // draw player HP
             for (int i = 0; i < (levelManager.player.GetComponent("Hitpoints") as Hitpoints).HP; i++)

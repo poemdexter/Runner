@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Runner.EntityFramework.Entities;
 
 namespace Runner.Managers
 {
@@ -19,8 +20,12 @@ namespace Runner.Managers
         {
             float rise = mousePosition.Y - spawnPoint.Y;
             float run = mousePosition.X - spawnPoint.X;
-            Vector2 slope = new Vector2(run, rise);
-            return Vector2.Normalize(slope);
+            return new Vector2(run, rise);
+        }
+
+        public static List<Arrow> MultiShot(Vector2 arrowSpawnPosition, Vector2 arrowVelocity)
+        {
+            return null;
         }
     }
 }
