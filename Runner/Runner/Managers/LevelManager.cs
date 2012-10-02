@@ -26,6 +26,7 @@ namespace Runner.Managers
         int updateTime = 0;
 
         public bool MultiShot { get; set; }
+        public int WeaponDelay { get; set; }
 
         public LevelManager()
         {
@@ -34,6 +35,8 @@ namespace Runner.Managers
             MobList = new List<Entity>();
             Score = 0;
             MultiShot = false;
+            WeaponDelay = GameUtil.arrowDelay;
+
         }
 
         public void Update(GameTime gameTime)
@@ -73,7 +76,6 @@ namespace Runner.Managers
                 {
                     MobList.Add(new Cultist());
                 }
-
 
                 updateTime = 0;
             }

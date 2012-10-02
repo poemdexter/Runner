@@ -9,7 +9,7 @@ namespace Runner
 {
     public static class GameUtil
     {
-        public const String VERSION = "0.0.8a";
+        public const String VERSION = "0.0.9";
 
         public static int MenuSelectDelay = 200;
 
@@ -21,9 +21,6 @@ namespace Runner
         public static int playerY = 500;
 
         public static int groundY = 564;
-
-        public static int arrowSpeed = 15;
-        public static int arrowDelay = 300;
 
         public static Random random = new Random();
         public static IDictionary<String, Texture2D> spriteDictionary = new Dictionary<String, Texture2D>();
@@ -39,7 +36,7 @@ namespace Runner
         public static int cultist_frames = 2;
 
         // HP values
-        public static int playerHP = 3;
+        public static int playerHP = 30;
         public static int batHP = 1;
         public static int spiderHP = 1;
         public static int cultistHP = 2;
@@ -66,6 +63,14 @@ namespace Runner
         public static int JumpPower = -10;
         public static int FallPower = 10;
         public static float JumpFriction = .6f;
+
+        // weapons
+        public static int arrowSpeed = 15;
+        public static int arrowDelay = 300;
+
+        // multishot
+        public static double multishot_spread = 1;
+        public static int multshotDelay = 600;
 
         public static void loadSprites(ContentManager Content)
         {
