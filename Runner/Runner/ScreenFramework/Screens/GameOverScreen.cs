@@ -22,7 +22,7 @@ namespace Runner.ScreenFramework.Screens
 
         public override void HandleInput(InputState input)
         {
-            if (input.IsNewKeyPress(Keys.Space))
+            if (input.IsNewKeyPress(Keys.Space, GameUtil.MenuSelectDelay))
             {
                 ScreenManager.AddScreen(new TitleScreen());
                 ScreenManager.RemoveScreen(this);

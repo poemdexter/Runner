@@ -20,7 +20,7 @@ namespace Runner.Managers
         public List<Entity> MobList;
         List<Arrow> arrowList;
 
-        public Player player { get; set; }
+        public Player player {get; set;}
         public int Score { get; set; }
 
         int updateTime = 0;
@@ -70,8 +70,7 @@ namespace Runner.Managers
                 {
                     MobList.Add(new Cultist());
                 }
-
-
+                
                 updateTime = 0;
             }
 
@@ -117,17 +116,14 @@ namespace Runner.Managers
             }
         }
 
-        public void Fire(Vector2 mousePosition)
+        public void FireWeapon(InputState input)
         {
-            // TODO Handle weapon modifications here
+            // TODO handle alternate properities for powerups
 
-            // arrow position
-            Vector2 arrowPosition = WeaponManager.CalculatePosition(((Mobile)player.GetComponent("Mobile")).Position, GameUtil.spriteDictionary["arrow"].Height);
-            // arrow velocity
-            Vector2 arrowVelocity = WeaponManager.CalculateVelocity(mousePosition, arrowPosition);
+            // normal single shot
+            arrowList.Add(new Arrow(input.GetMousePosition(), ((Mobile)player.GetComponent("Mobile")).Position));
 
-            // normal single, one shot
-            arrowList.Add(new Arrow(arrowPosition, arrowVelocity));
+
         }
 
         public void CheckCollisions(ScreenManager ScreenManager, GameScreen playScreen)

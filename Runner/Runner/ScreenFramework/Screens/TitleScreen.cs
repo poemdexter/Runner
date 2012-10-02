@@ -26,14 +26,14 @@ namespace Runner.ScreenFramework.Screens
         // handle key presses
         public override void HandleInput(InputState input)
         {
-            if (input.IsNewKeyPress(Keys.Up))
+            if (input.IsNewKeyPress(Keys.Up, GameUtil.MenuSelectDelay))
             {
                 selectedEntry--;
 
                 if (selectedEntry < 0)
                     selectedEntry = menuEntries.Count - 1;
             }
-            if (input.IsNewKeyPress(Keys.Down))
+            if (input.IsNewKeyPress(Keys.Down, GameUtil.MenuSelectDelay))
             {
                 selectedEntry++;
 

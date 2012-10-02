@@ -11,6 +11,8 @@ namespace Runner
     {
         public const String VERSION = "0.0.8a";
 
+        public static int MenuSelectDelay = 200;
+
         public static int windowHeight = 720;
         public static int windowWidth = 1280;
         public static float fontScale = 2f;

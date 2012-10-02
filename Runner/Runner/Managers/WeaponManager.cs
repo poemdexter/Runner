@@ -15,10 +15,10 @@ namespace Runner.Managers
                                playerPosition.Y + playerSprite.Center.Y - (spriteheight / 2));
         }
 
-        public static Vector2 CalculateVelocity(Vector2 target, Vector2 spawnPoint)
+        public static Vector2 CalculateVelocity(Vector2 mousePosition, Vector2 spawnPoint)
         {
-            float rise = target.Y - spawnPoint.Y;
-            float run = target.X - spawnPoint.X;
+            float rise = mousePosition.Y - spawnPoint.Y;
+            float run = mousePosition.X - spawnPoint.X;
             Vector2 slope = new Vector2(run, rise);
             return Vector2.Normalize(slope);
         }
