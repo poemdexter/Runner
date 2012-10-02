@@ -25,12 +25,26 @@ namespace Runner.Managers
 
         int updateTime = 0;
 
+<<<<<<< Updated upstream
+=======
+        public bool MultiShot { get; set; }
+        public int WeaponDelay { get; set; }
+
+>>>>>>> Stashed changes
         public LevelManager()
         {
             arrowList = new List<Arrow>();
             player = new Player();
             MobList = new List<Entity>();
             Score = 0;
+<<<<<<< Updated upstream
+=======
+            MultiShot = false;
+            WeaponDelay = GameUtil.arrowDelay;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         }
 
         public void Update(GameTime gameTime)
@@ -121,6 +135,7 @@ namespace Runner.Managers
         {
             // TODO Handle weapon modifications here
 
+<<<<<<< Updated upstream
             // arrow position
             Vector2 arrowPosition = WeaponManager.CalculatePosition(((Mobile)player.GetComponent("Mobile")).Position, GameUtil.spriteDictionary["arrow"].Height);
             // arrow velocity
@@ -128,6 +143,19 @@ namespace Runner.Managers
 
             // normal single, one shot
             arrowList.Add(new Arrow(arrowPosition, arrowVelocity));
+=======
+            // fires 3 shots with spread dependent on distance
+            if (MultiShot)
+            {
+                List<Arrow> multishotList = WeaponManager.MultiShot(arrowSpawnPosition, arrowVelocity);
+                foreach (Arrow a in multishotList) { arrowList.Add(a); }
+            }
+            // normal single, one shot
+            else
+            {
+                arrowList.Add(new Arrow(arrowSpawnPosition, Vector2.Normalize(arrowVelocity)));
+            }
+>>>>>>> Stashed changes
         }
 
         public void CheckCollisions(ScreenManager ScreenManager, GameScreen playScreen)

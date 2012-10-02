@@ -48,10 +48,31 @@ namespace Runner.ScreenFramework.Screens
         public override void HandleInput(InputState input)
         {
             // firing arrows
-            if (input.IsNewKeyPress(Keys.Z, GameUtil.arrowDelay) || input.IsNewLeftClick(GameUtil.arrowDelay)) // fire weapon
+            if (input.IsNewKeyPress(Keys.Z, levelManager.WeaponDelay) || input.IsNewLeftClick(levelManager.WeaponDelay)) // fire weapon
             {
                 levelManager.Fire(input.GetMousePosition());
             }
+<<<<<<< Updated upstream
+=======
+            else if (input.IsNewKeyPress(Keys.M, GameUtil.MenuSelectDelay)) 
+            {
+                levelManager.MultiShot = true;
+                levelManager.WeaponDelay = GameUtil.multshotDelay;
+<<<<<<< Updated upstream
+=======
+            }
+            else if (input.IsNewKeyPress(Keys.N, GameUtil.MenuSelectDelay))
+            {
+                levelManager.MultiShot = false;
+                levelManager.WeaponDelay = GameUtil.arrowDelay;
+>>>>>>> Stashed changes
+            }
+            else if (input.IsNewKeyPress(Keys.N, GameUtil.MenuSelectDelay))
+            {
+                levelManager.MultiShot = false;
+                levelManager.WeaponDelay = GameUtil.arrowDelay;
+            }
+>>>>>>> Stashed changes
 
             levelManager.HandlePlayerJump(input);
         }
