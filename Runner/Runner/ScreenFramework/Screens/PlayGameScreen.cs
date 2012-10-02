@@ -52,27 +52,16 @@ namespace Runner.ScreenFramework.Screens
             {
                 levelManager.Fire(input.GetMousePosition());
             }
-<<<<<<< Updated upstream
-=======
             else if (input.IsNewKeyPress(Keys.M, GameUtil.MenuSelectDelay)) 
             {
                 levelManager.MultiShot = true;
                 levelManager.WeaponDelay = GameUtil.multshotDelay;
-<<<<<<< Updated upstream
-=======
-            }
-            else if (input.IsNewKeyPress(Keys.N, GameUtil.MenuSelectDelay))
-            {
-                levelManager.MultiShot = false;
-                levelManager.WeaponDelay = GameUtil.arrowDelay;
->>>>>>> Stashed changes
             }
             else if (input.IsNewKeyPress(Keys.N, GameUtil.MenuSelectDelay))
             {
                 levelManager.MultiShot = false;
                 levelManager.WeaponDelay = GameUtil.arrowDelay;
             }
->>>>>>> Stashed changes
 
             levelManager.HandlePlayerJump(input);
         }

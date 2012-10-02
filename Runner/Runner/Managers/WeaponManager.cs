@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Runner.EntityFramework.Entities;
 
 namespace Runner.Managers
 {
@@ -15,14 +16,8 @@ namespace Runner.Managers
                                playerPosition.Y + playerSprite.Center.Y - (spriteheight / 2));
         }
 
-        public static Vector2 CalculateVelocity(Vector2 target, Vector2 spawnPoint)
+        public static Vector2 CalculateVelocity(Vector2 mousePosition, Vector2 spawnPoint)
         {
-<<<<<<< Updated upstream
-            float rise = target.Y - spawnPoint.Y;
-            float run = target.X - spawnPoint.X;
-            Vector2 slope = new Vector2(run, rise);
-            return Vector2.Normalize(slope);
-=======
             float rise = mousePosition.Y - spawnPoint.Y;
             float run = mousePosition.X - spawnPoint.X;
             return new Vector2(run, rise);
@@ -52,10 +47,6 @@ namespace Runner.Managers
             shotList.Add(new Arrow(arrowSpawnPosition, Vector2.Normalize(arrowVelocity)));
 
             return shotList;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         }
     }
 }

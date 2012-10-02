@@ -25,26 +25,17 @@ namespace Runner.Managers
 
         int updateTime = 0;
 
-<<<<<<< Updated upstream
-=======
         public bool MultiShot { get; set; }
         public int WeaponDelay { get; set; }
 
->>>>>>> Stashed changes
         public LevelManager()
         {
             arrowList = new List<Arrow>();
             player = new Player();
             MobList = new List<Entity>();
             Score = 0;
-<<<<<<< Updated upstream
-=======
             MultiShot = false;
             WeaponDelay = GameUtil.arrowDelay;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         }
 
         public void Update(GameTime gameTime)
@@ -84,7 +75,6 @@ namespace Runner.Managers
                 {
                     MobList.Add(new Cultist());
                 }
-
 
                 updateTime = 0;
             }
@@ -135,15 +125,11 @@ namespace Runner.Managers
         {
             // TODO Handle weapon modifications here
 
-<<<<<<< Updated upstream
             // arrow position
-            Vector2 arrowPosition = WeaponManager.CalculatePosition(((Mobile)player.GetComponent("Mobile")).Position, GameUtil.spriteDictionary["arrow"].Height);
+            Vector2 arrowSpawnPosition = WeaponManager.CalculatePosition(((Mobile)player.GetComponent("Mobile")).Position, GameUtil.spriteDictionary["arrow"].Height);
             // arrow velocity
-            Vector2 arrowVelocity = WeaponManager.CalculateVelocity(mousePosition, arrowPosition);
+            Vector2 arrowVelocity = WeaponManager.CalculateVelocity(mousePosition, arrowSpawnPosition);
 
-            // normal single, one shot
-            arrowList.Add(new Arrow(arrowPosition, arrowVelocity));
-=======
             // fires 3 shots with spread dependent on distance
             if (MultiShot)
             {
@@ -155,7 +141,6 @@ namespace Runner.Managers
             {
                 arrowList.Add(new Arrow(arrowSpawnPosition, Vector2.Normalize(arrowVelocity)));
             }
->>>>>>> Stashed changes
         }
 
         public void CheckCollisions(ScreenManager ScreenManager, GameScreen playScreen)
